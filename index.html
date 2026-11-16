@@ -1,310 +1,79 @@
 <!DOCTYPE html>
-<html lang="km" class="dark">
+<html lang="km">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>សំណាងសម្រាយរឿង - Samnang Recap & AI Dubbing Studio</title>
-    <!-- Tailwind CSS CDN -->
+    <title>ប្រព័ន្ធប្តូរសំឡេងវីដេអូជាភាសាខ្មែរ (AI Dubbing)</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#6366f1',
-                        darkBg: '#0f172a',
-                        cardBg: '#1e293b'
-                    }
-                }
-            }
-        }
-    </script>
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts Khmer -->
-    <link href="https://fonts.googleapis.com/css2?family=Battambang:wght@400;700&family=Kantumruy+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Kantumruy Pro', 'Battambang', sans-serif;
-        }
-        .gradient-text {
-            background: linear-gradient(135deg, #818cf8 0%, #c084fc 50%, #f472b6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-    </style>
 </head>
-<body class="bg-darkBg text-slate-100 min-h-screen flex flex-col transition-colors duration-300">
-
-    <!-- Header Navigation -->
-    <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur border-b border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
-                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-indigo-600 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/30">
-                    <i class="fa-solid fa-film text-white text-xl"></i>
-                </div>
-                <div>
-                    <span class="text-xl font-bold tracking-wide gradient-text">សំណាងសម្រាយរឿង</span>
-                    <span class="block text-xs text-slate-400">Samnang AI Studio</span>
-                </div>
-            </div>
-
-            <!-- Desktop Nav -->
-            <nav class="hidden md:flex items-center space-x-6 text-sm font-medium">
-                <button onclick="switchTab('home')" id="nav-home" class="text-indigo-400 hover:text-indigo-300 transition flex items-center space-x-2">
-                    <i class="fa-solid fa-house"></i><span>ទំព័រដើម</span>
-                </button>
-                <button onclick="switchTab('studio')" id="nav-studio" class="text-slate-300 hover:text-indigo-300 transition flex items-center space-x-2">
-                    <i class="fa-solid fa-wand-magic-sparkles text-pink-400"></i><span>AI ប្ដូរសំឡេងរឿង</span>
-                </button>
-                <button onclick="switchTab('library')" id="nav-library" class="text-slate-300 hover:text-indigo-300 transition flex items-center space-x-2">
-                    <i class="fa-solid fa-video"></i><span>ប្រវត្តិវីដេអូ</span>
-                </button>
-            </nav>
-
-            <!-- Right Actions -->
-            <div class="flex items-center space-x-4">
-                <button onclick="toggleDarkMode()" class="p-2.5 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
-                    <i class="fa-solid fa-moon" id="theme-icon"></i>
-                </button>
-                <button onclick="switchTab('studio')" class="hidden sm:inline-flex items-center space-x-2 px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-medium shadow-lg shadow-indigo-500/20 transition">
-                    <i class="fa-solid fa-cloud-arrow-up"></i>
-                    <span>បញ្ចូលវីដេអូថ្មី</span>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Content Area -->
-    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
-
-        <!-- ==================== TAB 1: HOME (Movie Catalog) ==================== -->
-        <div id="tab-home" class="space-y-8">
-            <!-- Hero Featured Banner -->
-            <div class="relative rounded-3xl overflow-hidden bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 border border-slate-800 shadow-2xl">
-                <div class="absolute inset-0 opacity-40 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=1200&q=80')"></div>
-                <div class="absolute inset-0 bg-gradient-to-t from-darkBg via-darkBg/60 to-transparent"></div>
-                
-                <div class="relative z-10 p-8 sm:p-12 max-w-2xl space-y-4">
-                    <span class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-pink-500/20 text-pink-300 border border-pink-500/30">
-                        <i class="fa-solid fa-fire"></i><span>រឿងពេញនិយមសប្ដាហ៍នេះ</span>
-                    </span>
-                    <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
-                        បដិវត្តន៍ថ្មីនៃការសម្រាយរឿងជាមួយ <span class="gradient-text">Gemini AI</span>
-                    </h1>
-                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
-                        បម្លែងវីដេអូបរទេសរបស់អ្នកឱ្យទៅជាសំឡេងនិយាយភាសាខ្មែរយ៉ាងរស់រវើក ត្រឹមតែប៉ុន្មានវិនាទីប៉ុណ្ណោះ។
-                    </p>
-                    <div class="pt-2 flex flex-wrap gap-4">
-                        <button onclick="switchTab('studio')" class="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold shadow-lg shadow-indigo-600/30 transition flex items-center space-x-2">
-                            <i class="fa-solid fa-play"></i><span>ចាប់ផ្តើមបកប្រែវីដេអូ</span>
-                        </button>
-                        <button onclick="scrollToCatalog()" class="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold border border-slate-700 transition">
-                            មើលរឿងសម្រាយទាំងអស់
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Search & Categories Filter -->
-            <div id="catalog-section" class="space-y-6 pt-4">
-                <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
-                    <div class="flex items-center space-x-2 overflow-x-auto w-full sm:w-auto pb-2 sm:pb-0">
-                        <button onclick="filterCategory('all')" class="cat-btn px-4 py-2 rounded-xl text-sm font-medium bg-indigo-600 text-white transition whitespace-nowrap">ទាំងអស់</button>
-                        <button onclick="filterCategory('hollywood')" class="cat-btn px-4 py-2 rounded-xl text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition whitespace-nowrap">ហូលីវូដ</button>
-                        <button onclick="filterCategory('kdrama')" class="cat-btn px-4 py-2 rounded-xl text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition whitespace-nowrap">រឿងភាគកូរ៉េ</button>
-                        <button onclick="filterCategory('chinese')" class="cat-btn px-4 py-2 rounded-xl text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition whitespace-nowrap">ភាពយន្តចិន</button>
-                    </div>
-                    <div class="relative w-full sm:w-72">
-                        <i class="fa-solid fa-search absolute left-4 top-3.5 text-slate-400"></i>
-                        <input type="text" id="searchInput" oninput="searchMovies()" placeholder="ស្វែងរកចំណងជើងរឿង..." class="w-full bg-slate-800/80 border border-slate-700 rounded-xl pl-11 pr-4 py-2.5 text-sm text-slate-200 placeholder-slate-400 focus:outline-none focus:border-indigo-500 transition">
-                    </div>
-                </div>
-
-                <!-- Movie Grid -->
-                <div id="movieGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Dynamic Movies Injected Here -->
-                </div>
-            </div>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-xl w-full bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-2xl space-y-6">
+        <div class="text-center space-y-2">
+            <h1 class="text-2xl font-bold text-indigo-400">ប្រព័ន្ធប្តូរសំឡេងវីដេអូជាភាសាខ្មែរ</h1>
+            <p class="text-sm text-slate-400">Upload វីដេអូរបស់អ្នក ទីនេះដើម្បីបកប្រែ និងប្ដូរសំឡេងដោយ AI</p>
         </div>
 
-        <!-- ==================== TAB 2: AI STUDIO (Dubbing & Recap) ==================== -->
-        <div id="tab-studio" class="hidden space-y-8 max-w-4xl mx-auto">
-            <div class="text-center space-y-2">
-                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
-                    <i class="fa-solid fa-microchip"></i> Gemini API Integrated Studio
-                </span>
-                <h2 class="text-2xl sm:text-4xl font-extrabold text-white">ប្រព័ន្ធបកប្រែ និងប្ដូរសំឡេងវីដេអូ AI</h2>
-                <p class="text-slate-400 text-sm sm:text-base">ទម្លាក់វីដេអូរបស់អ្នកមកទីនេះ ដើម្បីបកប្រែជាអត្ថបទសម្រាយ និងបង្កើតសំឡេងនិយាយភាសាខ្មែរដោយស្វ័យប្រវត្តិ។</p>
-            </div>
-
-            <!-- Upload Card -->
-            <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6">
-                <div id="dropZone" class="border-2 border-dashed border-slate-700 hover:border-indigo-500 rounded-2xl p-8 text-center cursor-pointer transition bg-slate-800/40 relative">
-                    <input type="file" id="videoFileInput" accept="video/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleFileSelect(event)">
-                    <div class="space-y-4">
-                        <div class="w-16 h-16 mx-auto rounded-full bg-indigo-600/20 text-indigo-400 flex items-center justify-center text-2xl">
-                            <i class="fa-solid fa-cloud-arrow-up"></i>
-                        </div>
-                        <div>
-                            <p class="text-base font-semibold text-slate-200" id="uploadPromptText">ទម្លាក់ឯកសារវីដេអូទីនេះ ឬ <span class="text-indigo-400 underline">រើសឯកសារ</span></p>
-                            <p class="text-xs text-slate-400 mt-1">รองรับ MP4, MKV, AVI (ទំហំអតិបរមា 500MB)</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Control Options -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-slate-300 mb-2">សំឡេង AI សម្រាប់អាន</label>
-                        <select id="voiceSelect" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-indigo-500">
-                            <option value="male1">លោក សំណាង (សំឡេងបុរស ជំនាញរឿងសកម្មភាព)</option>
-                            <option value="female1">អ្នកនាង ដាណា (សំឡេងស្រី ជំនាញរឿងមនោសញ្ចេតនា)</option>
-                            <option value="deep1">លោក វិសាល (សំឡេងក្រាស់ ជំនាញរឿងរន្ធត់)</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-slate-300 mb-2">ស្ទីលសម្រាយរឿង</label>
-                        <select id="styleSelect" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-indigo-500">
-                            <option value="dramatic">បែបស្ដេចរឿងរំភើបនិងទាក់ទាញ</option>
-                            <option value="funny">បែបកំប្លែងសប្បាយៗ</option>
-                            <option value="serious">បែបអាថ៌កំបាំង រន្ធត់ជក់ចិត្ត</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Action Button -->
-                <button onclick="startGeminiDubbing()" id="processBtn" class="w-full py-4 rounded-xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:opacity-90 text-white font-bold text-lg shadow-xl shadow-indigo-600/30 transition flex items-center justify-center space-x-2">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i>
-                    <span>ចាប់ផ្តើមបកប្រែ និងប្ដូរសំឡេង (Gemini API)</span>
-                </button>
-
-                <!-- Processing Progress Bar Container -->
-                <div id="progressContainer" class="hidden space-y-3 pt-2">
-                    <div class="flex justify-between text-sm">
-                        <span id="progressStatusText" class="text-indigo-300 font-medium">កំពុងតភ្ជាប់ទៅ Gemini API...</span>
-                        <span id="progressPercent" class="text-slate-400 font-semibold">0%</span>
-                    </div>
-                    <div class="w-full bg-slate-800 rounded-full h-3 overflow-hidden">
-                        <div id="progressBar" class="bg-gradient-to-r from-indigo-500 to-pink-500 h-full w-0 transition-all duration-300"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Result Output Section -->
-            <div id="resultSection" class="hidden space-y-6">
-                <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6">
-                    <div class="flex items-center justify-between border-b border-slate-800 pb-4">
-                        <h3 class="text-xl font-bold text-white flex items-center space-x-2">
-                            <i class="fa-solid fa-circle-check text-emerald-400"></i>
-                            <span>លទ្ធផលសម្រាយរឿង និងសំឡេងខ្មែររួចរាល់!</span>
-                        </h3>
-                        <span class="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300">ជោគជ័យ</span>
-                    </div>
-
-                    <!-- Video Preview Player -->
-                    <div class="relative aspect-video bg-black rounded-2xl overflow-hidden shadow-lg">
-                        <video id="outputVideoPreview" controls class="w-full h-full object-cover"></video>
-                    </div>
-
-                    <!-- Generated Script Box -->
-                    <div class="space-y-2">
-                        <label class="block text-sm font-semibold text-slate-300">អត្ថបទសម្រាយរឿង (Khmer Script Generated by Gemini):</label>
-                        <textarea id="outputScriptText" rows="6" readonly class="w-full bg-slate-800 border border-slate-700 rounded-xl p-4 text-sm text-slate-200 focus:outline-none"></textarea>
-                    </div>
-
-                    <!-- Download & Share Actions -->
-                    <div class="flex flex-wrap gap-4 pt-2">
-                        <button onclick="downloadProcessedVideo()" class="flex-1 py-3 px-6 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold shadow-lg shadow-emerald-600/30 transition flex items-center justify-center space-x-2">
-                            <i class="fa-solid fa-download"></i>
-                            <span>ទាញយកវីដេអូសំឡេងខ្មែរ (Download)</span>
-                        </button>
-                        <button onclick="saveToLibrary()" class="py-3 px-6 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold border border-slate-700 transition flex items-center space-x-2">
-                            <i class="fa-solid fa-bookmark"></i>
-                            <span>រក្សាទុកក្នុងប្រវត្តិ</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ==================== TAB 3: LIBRARY (Saved History) ==================== -->
-        <div id="tab-library" class="hidden space-y-6">
-            <div class="flex justify-between items-center">
-                <div>
-                    <h2 class="text-2xl font-bold text-white">ប្រវត្តិវីដេអូប្ដូរសំឡេងរួច</h2>
-                    <p class="text-slate-400 text-sm">វីដេអូទាំងអស់ដែលអ្នកបានបង្កើតនិងបកប្រែរួចរាល់។</p>
-                </div>
-                <button onclick="clearLibrary()" class="px-4 py-2 rounded-xl bg-rose-600/20 hover:bg-rose-600/30 text-rose-300 text-sm font-medium border border-rose-500/30 transition">
-                    <i class="fa-solid fa-trash mr-2"></i>លុបប្រវត្តិទាំងអស់
-                </button>
-            </div>
-
-            <div id="libraryContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Injected via JavaScript -->
-            </div>
-        </div>
-
-    </main>
-
-    <!-- Movie Detail Modal -->
-    <div id="movieModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-3xl w-full p-6 sm:p-8 relative space-y-6 shadow-2xl my-8">
-            <button onclick="closeModal()" class="absolute top-6 right-6 w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition">
-                <i class="fa-solid fa-xmark text-lg"></i>
+        <!-- File Upload Input -->
+        <div class="space-y-4">
+            <input type="file" id="videoFile" accept="video/*" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-indigo-600 file:text-white hover:file:bg-indigo-500 cursor-pointer">
+            
+            <button onclick="uploadAndDub()" id="submitBtn" class="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 font-bold transition shadow-lg shadow-indigo-600/30">
+                ចាប់ផ្តើមប្ដូរសំឡេង (AI Dubbing)
             </button>
+        </div>
 
-            <div class="flex items-start space-x-4">
-                <img id="modalPoster" src="" alt="Poster" class="w-28 sm:w-36 rounded-2xl object-cover shadow-lg aspect-[3/4]">
-                <div class="space-y-2">
-                    <span id="modalCategory" class="px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500/20 text-indigo-300">Category</span>
-                    <h3 id="modalTitle" class="text-xl sm:text-2xl font-bold text-white">Movie Title</h3>
-                    <div class="flex items-center space-x-4 text-xs text-slate-400">
-                        <span><i class="fa-solid fa-eye text-indigo-400 mr-1"></i> <span id="modalViews">0</span> មើល</span>
-                        <span><i class="fa-solid fa-clock text-pink-400 mr-1"></i> <span id="modalDuration">00:00</span></span>
-                    </div>
-                </div>
-            </div>
+        <!-- Status & Result -->
+        <div id="statusBox" class="hidden text-center text-sm text-indigo-300 animate-pulse">
+            កំពុងបញ្ជូនវីដេអូ និងដំណើរការជាមួយ Gemini API... សូមរង់ចាំបន្តិច!
+        </div>
 
-            <div class="space-y-2">
-                <h4 class="text-sm font-semibold text-slate-300">សាច់រឿងសង្ខេប៖</h4>
-                <p id="modalDesc" class="text-sm text-slate-300 leading-relaxed bg-slate-800/50 p-4 rounded-xl border border-slate-700/50"></p>
-            </div>
-
-            <div class="flex justify-end space-x-4 pt-2">
-                <button onclick="closeModal()" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-semibold transition">បិទ</button>
-                <button onclick="playFullRecap()" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold shadow-lg shadow-indigo-600/30 transition flex items-center space-x-2">
-                    <i class="fa-solid fa-play"></i><span>ទស្សនាវីដេអូពេញ</span>
-                </button>
-            </div>
+        <div id="resultBox" class="hidden space-y-4 border-t border-slate-800 pt-4">
+            <h3 class="font-bold text-emerald-400">ជោគជ័យ! វីដេអូរបស់អ្នកត្រូវបានប្ដូរសំឡេងរួចរាល់៖</h3>
+            <textarea id="scriptOutput" rows="4" readonly class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-xs text-slate-300"></textarea>
+            <a id="downloadLink" href="#" class="block text-center py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 font-bold text-white transition">
+                ទាញយកវីដេអូសំឡេងខ្មែរ (Download Video)
+            </a>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="border-t border-slate-800 bg-slate-900/50 py-6 mt-12 text-center text-xs text-slate-500">
-        <p>&copy; 2026 សំណាងសម្រាយរugen (Samnang Recap & AI Dubbing Studio). រក្សាសិទ្ធិគ្រប់យ៉ាង។</p>
-    </footer>
-
-    <!-- JavaScript Application Logic -->
     <script>
-        // Gemini API Configuration provided by user
-        const GEMINI_API_KEY = "AQ.Ab8RN6JNHhMKkwA5uB45idQcc3hyPi_VKljYbdxLvzfjueqRpA";
+        async function uploadAndDub() {
+            const fileInput = document.getElementById('videoFile');
+            if (fileInput.files.length === 0) {
+                alert('សូមជ្រើសរើសឯកសារវីដេអូជាមុនសិន!');
+                return;
+            }
 
-        // Sample Movie Database
-        const moviesData = [
-            {
-                id: 1,
-                title: "បេសកកម្មរင်្គដែក (Iron Squad)",
-                category: "hollywood",
-                categoryName: "ហូលីវូដ",
-                views: "125K",
-                duration: "15:42",
-                poster: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=600&q=80",
-                desc: "រឿងរ៉ាវប្រយុទ្ធគ្នាយ៉ាងស្វិតស្វាញរបស់អង្គភាពទ័ពពិសេស ដើម្បីជួយសង្គ្រោះពិភពលោកពីគ្រោះមហន្តរាយបច្ចេកវិទ្យាទំនើប។"
-            },
-            {
-                id: 2,
-                title: "សង្សារខ្ញុំជាមនុស្សយន្ត (My Robot Love)",
-                category: "kdrama",
-                categoryName: "រឿងភាគ
+            const formData = new FormData();
+            formData.append('video', fileInput.files[0]);
+
+            document.getElementById('statusBox').classList.remove('hidden');
+            document.getElementById('resultBox').classList.add('hidden');
+            document.getElementById('submitBtn').disabled = true;
+
+            try {
+                const response = await fetch('http://localhost:5000/upload-video', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                if(data.success) {
+                    document.getElementById('statusBox').classList.add('hidden');
+                    document.getElementById('resultBox').classList.remove('hidden');
+                    document.getElementById('scriptOutput').value = data.script;
+                    document.getElementById('downloadLink').href = 'http://localhost:5000' + data.download_url;
+                } else {
+                    alert('មានបញ្ហា៖ ' + data.error);
+                    document.getElementById('statusBox').classList.add('hidden');
+                }
+            } catch (error) {
+                alert('កំហុសក្នុងការតភ្ជាប់៖ ' + error);
+                document.getElementById('statusBox').classList.add('hidden');
+            } finally {
+                document.getElementById('submitBtn').disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
