@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="km" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khmer AI Speech & Text Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Kantumruy Pro', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 h-full flex flex-col justify-between">
+    <div class="max-w-2xl mx-auto p-4 w-full flex-grow">
+        <header class="text-center my-6">
+            <h1 class="text-2xl font-bold text-indigo-600">Khmer AI Text-to-Speech</h1>
+            <p class="text-sm text-slate-500 mt-1">សរសេរអក្សរខ្មែរដើម្បីស្ដាប់ជាសំឡេង ឬប្រើប្រាស់ Gemini AI ជួយកែច្នៃ</p>
+        </header>
+
+        <main class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-4">
+            <div>
+                <label for="textInput" class="block text-sm font-medium text-slate-700 mb-1">អត្ថបទភាសាខ្មែរ៖</label>
+                <textarea id="textInput" rows="5" class="w-full rounded-xl border border-slate-300 p-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-700" placeholder="បញ្ចូលអត្ថបទរបស់អ្នកទីនេះ..."></textarea>
+            </div>
+
+            <div class="flex flex-wrap gap-2 items-center justify-between">
+                <div class="flex gap-2">
+                    <button id="speakBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl font-medium transition flex items-center gap-1.5 shadow-sm">
+                        <span>🔊 និយាយ</span>
+                    </button>
+                    <button id="stopBtn" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 py-2 rounded-xl font-medium transition">
+                        ឈប់
+                    </button>
+                </div>
+                <button id="aiEnhanceBtn" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl font-medium transition flex items-center gap-1.5 shadow-sm">
+                    ✨ កែច្នៃដោយ Gemini AI
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <footer class="text-center py-4 text-xs text-slate-400">
+        &copy; 2026 Khmer AI Assistant. រក្សាសិទ្ធិគ្រប់យ៉ាង។
+    </footer>
+
+    <script>
+        const textInput = document.getElementById('textInput');
+        const speakBtn = document.getElementById('speakBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const aiEnhanceBtn = document.getElementById('aiEnhanceBtn');
+
+        const geminiApiKey = "AQ.Ab8RN6JNHhMKkwA5uB45idQcc3hyPi_VKljYbdxLvzfjueqRpA";
+
+        // Text to Speech Function
+        function speakText(text) {
+            if (!text.trim()) return;
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'km-KH';
+            utterance.rate = 1.0;
+            window.speechSynthesis.speak(utterance);
+        }
+
+        speakBtn.addEventListener('click', () => {
+            speakText(textInput.value);
+        });
+
+        stopBtn.addEventListener('click', () => {
+            window.speechSynthesis.cancel();
+        });
+
+        // AI Enhance using Gemini API
+        aiEnhanceBtn.addEventListener('click', async () => {
+            const text = textInput.value.trim();
+            if (!text) {
+                alert('សូមបញ្ចូលអត្ថបទជាមុនសិន!');
+                return;
+            }
+
+            aiEnhanceBtn.disabled = true;
+            aiEnhanceBtn.textContent = 'กำลังដំណើរការ... (Processing...)';
+
+            try {
+                const response = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`;
+                const res = await fetch(response, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{ text: `ជួយកែសម្រួលនិងពង្រីកអត្ថបទភាសាខ្មែរនេះឱ្យពីរោះ និងងាយស្រួលស្ដាប់ជាសំឡេង៖ ${text}` }]
+                        }]
+                    })
+                });
+
+                const data = await res.json();
+                const aiResponseText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                if (aiResponseText) {
+                    textInput.value = aiResponseText;
+                    speakText(aiResponseText);
+                } else {
+                    alert('មានបញ្ហាក្នុងការទាក់ទងទៅ Gemini API');
+                }
+            } catch (error) {
+                console.error(error);
+                alert('មានបញ្ហាបច្ចេកទេសកើតឡើង។');
+            } finally {
+                aiEnhanceBtn.disabled = false;
+                aiEnhanceBtn.innerHTML = '✨ កែច្នៃដោយ Gemini AI';
+            }
+        });
+    </script>
+</body>
+</html>
+  
