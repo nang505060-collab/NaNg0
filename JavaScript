@@ -1,0 +1,50 @@
+export default {
+  async fetch(request, env, ctx) {
+    // CORS Headers ដើម្បីការពារកំហុស Failed to fetch / CORS
+    const corsHeaders = {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+    };
+
+    if (request.method === "OPTIONS") {
+      return new Response(null, { headers: corsHeaders });
+    }
+
+    if (request.method === "POST") {
+      try {
+        // ទទួលទិន្នន័យពី Frontend
+        const body = await request.json();
+        const userPrompt = body.prompt || "សូមបង្កើតអត្ថបទសម្រាយរឿងជាភាសាខ្មែរយ៉ាងទាក់ទាញ។";
+
+        // Gemini API Key របស់អ្នក
+        const GEMINI_API_KEY = "AQ.Ab8RN6JNHhMKkwA5uB45idQcc3hyPi_VKljYbdxLvzfjueqRpA";
+        const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+
+        // ហៅទៅកាន់ Gemini API
+        const geminiResponse = await fetch(geminiUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: userPrompt }] }]
+          })
+        });
+
+        const geminiData = await geminiResponse.json();
+        const aiText = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || "មិនមានការឆ្លើយតបពី AI ទេ។";
+
+        return new Response(JSON.stringify({ success: true, script: aiText }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" }
+        });
+
+      } catch (error) {
+        return new Response(JSON.stringify({ success: false, error: error.message }), {
+          status: 500,
+          headers: { ...corsHeaders, "Content-Type": "application/json" }
+        });
+      }
+    }
+
+    return new Response("Cloudflare Worker AI Service is running!", { headers: corsHeaders });
+  }
+};
